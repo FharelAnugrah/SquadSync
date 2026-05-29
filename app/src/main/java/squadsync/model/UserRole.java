@@ -1,5 +1,5 @@
 package squadsync.model;
 
-public class UserRole {
-    
+public enum UserRole {
+    MANAGER
 }
