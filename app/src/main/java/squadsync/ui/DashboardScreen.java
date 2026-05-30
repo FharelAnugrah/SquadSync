@@ -1,21 +1,22 @@
 package squadsync.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import squadsync.model.UserRole;
 
 public class DashboardScreen {
@@ -170,15 +171,15 @@ public class DashboardScreen {
         // Responsive wrapping logic
         cardsPane.prefWrapLengthProperty().bind(content.widthProperty().subtract(100));
         
-        int totalPlayers = olahraga.database.DatabaseManager.getInstance().getAllPlayers().size();
+        int totalPlayers = squadsync.database.DatabaseManager.getInstance().getAllPlayers().size();
         
-        java.util.List<olahraga.model.Player> players = olahraga.database.DatabaseManager.getInstance().getAllPlayers();
+        java.util.List<squadsync.model.Player> players = squadsync.database.DatabaseManager.getInstance().getAllPlayers();
         String bestPlayerName = "-";
         int avgScore = 0;
         if (!players.isEmpty()) {
-            olahraga.model.Player best = players.get(0);
+            squadsync.model.Player best = players.get(0);
             int totalScore = 0;
-            for (olahraga.model.Player p : players) {
+            for (squadsync.model.Player p : players) {
                 totalScore += p.getScore();
                 if (p.getScore() > best.getScore()) {
                     best = p;
@@ -188,10 +189,10 @@ public class DashboardScreen {
             avgScore = totalScore / players.size();
         }
 
-        java.util.List<olahraga.model.Training> trainings = olahraga.database.DatabaseManager.getInstance().getAllTrainings();
+        java.util.List<squadsync.model.Training> trainings = squadsync.database.DatabaseManager.getInstance().getAllTrainings();
         java.time.LocalDateTime now = java.time.LocalDateTime.now();
         
-        olahraga.model.Training nextTraining = trainings.stream()
+        squadsync.model.Training nextTraining = trainings.stream()
             .filter(t -> {
                 try {
                     java.time.LocalDate d = java.time.LocalDate.parse(t.getDate());
@@ -228,7 +229,7 @@ public class DashboardScreen {
         root.setCenter(content);
     }
 
-    private VBox createNextTrainingCard(olahraga.model.Training training) {
+    private VBox createNextTrainingCard(squadsync.model.Training training) {
         VBox card = new VBox(12);
         card.setAlignment(Pos.CENTER_LEFT);
         card.setPadding(new Insets(25));
